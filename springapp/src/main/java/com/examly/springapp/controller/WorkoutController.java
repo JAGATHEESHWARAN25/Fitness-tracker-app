@@ -18,53 +18,44 @@ public class WorkoutController {
         this.service = service;
     }
 
-    // GET all workouts
     @GetMapping
-    public List<Workout> getAll() {
-        return service.getAllWorkouts();
+    public ResponseEntity<List<Workout>> getAll() {
+        return ResponseEntity.ok(service.getAllWorkouts());
     }
 
-    // GET workout by ID
     @GetMapping("/{id}")
-    public ResponseEntity<?> getById(@PathVariable Long id) {
-        Workout workout = service.getWorkoutById(id);
-        return ResponseEntity.ok(workout);
+    public ResponseEntity<Workout> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(service.getWorkoutById(id));
     }
 
-    // POST create workout
     @PostMapping
-    public ResponseEntity<?> create(@Valid @RequestBody Workout workout) {
+    public ResponseEntity<Workout> create(@Valid @RequestBody Workout workout) {
         return ResponseEntity.status(201).body(service.createWorkout(workout));
     }
 
-    // PUT update workout
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody Workout workout) {
+    public ResponseEntity<Workout> update(@PathVariable Long id, @Valid @RequestBody Workout workout) {
         return ResponseEntity.ok(service.updateWorkout(id, workout));
     }
 
-    // DELETE workout
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         service.deleteWorkout(id);
         return ResponseEntity.noContent().build();
     }
 
-    // GET workouts by type (JPA method)
     @GetMapping("/type/{type}")
-    public List<Workout> getByType(@PathVariable String type) {
-        return service.getWorkoutsByType(type);
+    public ResponseEntity<List<Workout>> getByType(@PathVariable String type) {
+        return ResponseEntity.ok(service.getWorkoutsByType(type));
     }
 
-    // GET workouts with minimum calories burned (JPA method)
     @GetMapping("/calories/{min}")
-    public List<Workout> getByMinCalories(@PathVariable int min) {
-        return service.getWorkoutsWithMinCalories(min);
+    public ResponseEntity<List<Workout>> getByMinCalories(@PathVariable int min) {
+        return ResponseEntity.ok(service.getWorkoutsWithMinCalories(min));
     }
 
-    // GET recent workouts using JPQL query
     @GetMapping("/recent/{days}")
-    public List<Workout> getRecentWorkouts(@PathVariable int days) {
-        return service.getRecentWorkouts(days);
+    public ResponseEntity<List<Workout>> getRecentWorkouts(@PathVariable int days) {
+        return ResponseEntity.ok(service.getRecentWorkouts(days));
     }
 }

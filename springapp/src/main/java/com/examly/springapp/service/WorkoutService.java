@@ -6,6 +6,7 @@ import com.examly.springapp.repository.WorkoutRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -46,7 +47,6 @@ public class WorkoutService {
         repository.delete(existing);
     }
 
-    // Additional query methods
     public List<Workout> getWorkoutsByType(String type) {
         return repository.findByType(type);
     }
@@ -56,6 +56,7 @@ public class WorkoutService {
     }
 
     public List<Workout> getRecentWorkouts(int days) {
-        return repository.findRecentWorkouts(days);
+        LocalDate dateFrom = LocalDate.now().minusDays(days);
+        return repository.findRecentWorkouts(dateFrom);
     }
 }
