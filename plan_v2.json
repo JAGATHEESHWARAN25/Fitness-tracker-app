@@ -1,0 +1,205 @@
+[
+  {
+    "step": "Read and analyze backend dependencies in pom.xml and project structure",
+    "sub_steps": [
+      "Open /home/coder/project/workspace/question_generation_service/solutions/0c06a440-b4a5-436c-becd-b34f60bfc48c/springapp/pom.xml and study the dependencies for web, data-jpa, validation, and mysql.",
+      "Survey the directory /home/coder/project/workspace/question_generation_service/solutions/0c06a440-b4a5-436c-becd-b34f60bfc48c/springapp/src/main/java/com/examly/springapp to plan backend code placement.",
+      "Familiarize with the application properties in /home/coder/project/workspace/question_generation_service/solutions/0c06a440-b4a5-436c-becd-b34f60bfc48c/springapp/src/main/resources/application.properties."
+    ],
+    "files_to_add": [],
+    "files_to_edit": [
+      "/home/coder/project/workspace/question_generation_service/solutions/0c06a440-b4a5-436c-becd-b34f60bfc48c/springapp/pom.xml",
+      "/home/coder/project/workspace/question_generation_service/solutions/0c06a440-b4a5-436c-becd-b34f60bfc48c/springapp/src/main/resources/application.properties"
+    ],
+    "description": "Establish a full understanding of backend stack, dependencies, and code organization. This is critical to plan entity, repository, service, controller, validation, and test file placement."
+  },
+  {
+    "step": "Implement Workout Entity, Repository, and Database Mapping",
+    "sub_steps": [
+      "Create Workout entity with fields: id, type, duration, caloriesBurned, date, notes.",
+      "Annotate with JPA (jakarta.persistence.*), use Bean Validation (jakarta.validation.constraints.*) for: type (not null/empty), duration (>0), caloriesBurned (>=0), date (not null, not future).",
+      "Create WorkoutRepository interface extending JpaRepository.",
+      "Map to MySQL using proper column types, ensure date uses LocalDate."
+    ],
+    "files_to_add": [
+      "/home/coder/project/workspace/question_generation_service/solutions/0c06a440-b4a5-436c-becd-b34f60bfc48c/springapp/src/main/java/com/examly/springapp/model/Workout.java",
+      "/home/coder/project/workspace/question_generation_service/solutions/0c06a440-b4a5-436c-becd-b34f60bfc48c/springapp/src/main/java/com/examly/springapp/repository/WorkoutRepository.java"
+    ],
+    "files_to_edit": [],
+    "description": "Defines the central database entity and persistence interface with required validation rules for all workout operations."
+  },
+  {
+    "step": "Implement WorkoutService and Exception Handling Classes",
+    "sub_steps": [
+      "Create WorkoutService with methods: getAllWorkouts, getWorkoutById, createWorkout.",
+      "Create custom exception (WorkoutNotFoundException) for missing workouts.",
+      "Encapsulate business logic and validation.",
+      "Ensure service methods use the repository and handle not-found/validation issues appropriately."
+    ],
+    "files_to_add": [
+      "/home/coder/project/workspace/question_generation_service/solutions/0c06a440-b4a5-436c-becd-b34f60bfc48c/springapp/src/main/java/com/examly/springapp/service/WorkoutService.java",
+      "/home/coder/project/workspace/question_generation_service/solutions/0c06a440-b4a5-436c-becd-b34f60bfc48c/springapp/src/main/java/com/examly/springapp/exception/WorkoutNotFoundException.java"
+    ],
+    "files_to_edit": [],
+    "description": "Adds workout business logic, separation of concerns, and structured exception management required for the controller and tests."
+  },
+  {
+    "step": "Implement WorkoutController with REST Endpoints and Error Handling",
+    "sub_steps": [
+      "Create REST controller with endpoints: GET /api/workouts, GET /api/workouts/{id}, POST /api/workouts.",
+      "Use appropriate request mapping annotations and validation (@Valid).",
+      "Implement exception handlers for 404 (WorkoutNotFoundException) and 400 (validation errors) using @ExceptionHandler/@ResponseStatus.",
+      "Ensure API returns correct status codes and error messages as specified.",
+      "Configure dates to use ISO format for input/output in API.",
+      "Add CORS configuration to allow frontend API access."
+    ],
+    "files_to_add": [
+      "/home/coder/project/workspace/question_generation_service/solutions/0c06a440-b4a5-436c-becd-b34f60bfc48c/springapp/src/main/java/com/examly/springapp/controller/WorkoutController.java",
+      "/home/coder/project/workspace/question_generation_service/solutions/0c06a440-b4a5-436c-becd-b34f60bfc48c/springapp/src/main/java/com/examly/springapp/exception/GlobalExceptionHandler.java"
+    ],
+    "files_to_edit": [
+      "/home/coder/project/workspace/question_generation_service/solutions/0c06a440-b4a5-436c-becd-b34f60bfc48c/springapp/src/main/java/com/examly/springapp/FitnessTrackerApplication.java"
+    ],
+    "description": "Exposes the workout management APIs, implements error handling contract, and ensures CORS for frontend integration."
+  },
+  {
+    "step": "Implement Backend Test Cases (JUnit) for Workout Features",
+    "sub_steps": [
+      "Map each test case from the Test Cases JSON to its corresponding test method:",
+      "- testGetAllWorkouts: create and persist 3 workouts, call GET endpoint, verify count/data.",
+      "- testGetWorkoutById: persist one workout, call GET/{id}, verify all fields.",
+      "- testGetWorkoutByIdNotFound: call GET with invalid id, expect 404 with correct message.",
+      "- testCreateWorkout: POST valid data, verify 201, returned workout, and DB entity.",
+      "- testCreateWorkoutValidation: POST invalid data (empty/negative/future), verify 400 and validation error messages.",
+      "Use mocks for repository/service if needed.",
+      "Verify response codes, content, and side effects in DB where applicable.",
+      "Ensure each test is independent and covers all described scenarios.",
+      "Reference controller, service, entity, and repository files for context."
+    ],
+    "files_to_add": [
+      "/home/coder/project/workspace/question_generation_service/solutions/0c06a440-b4a5-436c-becd-b34f60bfc48c/springapp/src/test/java/com/examly/springapp/controller/WorkoutControllerTest.java"
+    ],
+    "files_to_edit": [],
+    "description": "Implements all required backend test cases, covering positive/negative scenarios and API contract as per the Test Cases JSON."
+  },
+  {
+    "step": "Compile and Test Backend (Spring Boot, JUnit)",
+    "sub_steps": [
+      "Run mvn clean compile -q -Dspring.main.banner-mode=off to check for compilation errors.",
+      "Run mvn test -q -Dspring.main.banner-mode=off to execute backend tests."
+    ],
+    "files_to_add": [],
+    "files_to_edit": [],
+    "description": "Ensures that backend implementation is complete, compiles successfully, and all tests pass, validating basic functionality before moving to frontend."
+  },
+  {
+    "step": "Read and analyze frontend dependencies in package.json and React app structure",
+    "sub_steps": [
+      "Open /home/coder/project/workspace/question_generation_service/solutions/0c06a440-b4a5-436c-becd-b34f60bfc48c/reactapp/package.json and study dependencies (React, styled-components, etc if present).",
+      "Map out src/ structure: identify App.js, index.js, index.css, and plan for components/utils/components structure.",
+      "Confirm the starting point for integration of feature components into App.js."
+    ],
+    "files_to_add": [],
+    "files_to_edit": [
+      "/home/coder/project/workspace/question_generation_service/solutions/0c06a440-b4a5-436c-becd-b34f60bfc48c/reactapp/package.json",
+      "/home/coder/project/workspace/question_generation_service/solutions/0c06a440-b4a5-436c-becd-b34f60bfc48c/reactapp/src/App.js"
+    ],
+    "description": "Establishes clear understanding of the React environment, dependency set, and locations for implementing components and utility code."
+  },
+  {
+    "step": "Implement API utilities and helpers for shared logic and constants",
+    "sub_steps": [
+      "Create utils/api.js with API calls: fetchAllWorkouts, fetchWorkoutById, createWorkout, using fetch with retry logic (max 2 retries on failure).",
+      "Create utils/date.js with a function to convert ISO dates (YYYY-MM-DD) to user-friendly format (e.g., 'May 15, 2023').",
+      "Add constants.js for shared URL configs (API_BASE_URL: http://localhost:8080)."
+    ],
+    "files_to_add": [
+      "/home/coder/project/workspace/question_generation_service/solutions/0c06a440-b4a5-436c-becd-b34f60bfc48c/reactapp/src/utils/api.js",
+      "/home/coder/project/workspace/question_generation_service/solutions/0c06a440-b4a5-436c-becd-b34f60bfc48c/reactapp/src/utils/date.js",
+      "/home/coder/project/workspace/question_generation_service/solutions/0c06a440-b4a5-436c-becd-b34f60bfc48c/reactapp/src/utils/constants.js"
+    ],
+    "files_to_edit": [],
+    "description": "Centralizes API communications and reusable helper logic for date formatting, enabling code reuse and easier maintenance."
+  },
+  {
+    "step": "Implement WorkoutList component and its test file",
+    "sub_steps": [
+      "Create components/WorkoutList.js to fetch and display workouts in a styled table.",
+      "Show Type, Duration (mins), Calories Burned, Date (formatted) columns.",
+      "Handle and display loading state.",
+      "Reference utils/api.js and utils/date.js functions.",
+      "Create components/WorkoutList.test.js to implement testWorkoutListComponent (mock API, test rendering, headers, rows, loader, date formatting)."
+    ],
+    "files_to_add": [
+      "/home/coder/project/workspace/question_generation_service/solutions/0c06a440-b4a5-436c-becd-b34f60bfc48c/reactapp/src/components/WorkoutList.js",
+      "/home/coder/project/workspace/question_generation_service/solutions/0c06a440-b4a5-436c-becd-b34f60bfc48c/reactapp/src/components/WorkoutList.test.js"
+    ],
+    "files_to_edit": [],
+    "description": "Provides the workout listing UI and ensures its data-loading and presentation logic pass the corresponding test case."
+  },
+  {
+    "step": "Implement AddWorkoutForm component and its test file",
+    "sub_steps": [
+      "Create components/AddWorkoutForm.js with fields: type (input/select), duration, caloriesBurned, date (input[type=date]), notes (textarea).",
+      "Add frontend validation: type (not empty), duration (>0), caloriesBurned (>=0), date (not empty/not future).",
+      "On submit, call createWorkout; display success/error messages as appropriate.",
+      "On success, reset form and trigger update via parent callback.",
+      "Reference utils/api.js for API, reuse CSS variables and error classes.",
+      "Create components/AddWorkoutForm.test.js to implement:",
+      "- testAddWorkoutFormRendering (check fields/initial state),",
+      "- testAddWorkoutFormValidation (error messages for empty/invalid/future data),",
+      "- testAddWorkoutFormSubmission (mock API, submit valid data, check effects)."
+    ],
+    "files_to_add": [
+      "/home/coder/project/workspace/question_generation_service/solutions/0c06a440-b4a5-436c-becd-b34f60bfc48c/reactapp/src/components/AddWorkoutForm.js",
+      "/home/coder/project/workspace/question_generation_service/solutions/0c06a440-b4a5-436c-becd-b34f60bfc48c/reactapp/src/components/AddWorkoutForm.test.js"
+    ],
+    "files_to_edit": [],
+    "description": "Implements add-workout form with strict validation and full test coverage for rendering, validation, and submission scenarios."
+  },
+  {
+    "step": "Integrate components into App.js and update App.css for required design system",
+    "sub_steps": [
+      "Edit App.js to render AddWorkoutForm and WorkoutList, manage state updates for new workouts.",
+      "Edit App.css to add required design tokens: CSS variables, .btn-primary, .btn-outline, .error, layout containers, date formatting, align with design guidelines from instructions.",
+      "Wrap forms and tables in centered containers, apply spacing, shadows, rounded corners, modern look.",
+      "Ensure responsive and visually balanced layout."
+    ],
+    "files_to_add": [],
+    "files_to_edit": [
+      "/home/coder/project/workspace/question_generation_service/solutions/0c06a440-b4a5-436c-becd-b34f60bfc48c/reactapp/src/App.js",
+      "/home/coder/project/workspace/question_generation_service/solutions/0c06a440-b4a5-436c-becd-b34f60bfc48c/reactapp/src/App.css"
+    ],
+    "description": "Connects all UI pieces, applies standardized styling, and ensures the full workflow from form to list works end-to-end in a cohesive, consistent layout."
+  },
+  {
+    "step": "Implement Frontend Test Cases (Jest + React Testing Library)",
+    "sub_steps": [
+      "Directly implement the following tests based on the Test Cases JSON and required behaviors:",
+      "- testWorkoutListComponent: in WorkoutList.test.js; mock API, check loader, headers, rows, friendly date.",
+      "- testAddWorkoutFormRendering: in AddWorkoutForm.test.js; check form fields, initial state.",
+      "- testAddWorkoutFormValidation: in AddWorkoutForm.test.js; submit empty/invalid/future, check error messages match backend test expectations.",
+      "- testAddWorkoutFormSubmission: in AddWorkoutForm.test.js; mock createWorkout API, submit valid, check success/reset.",
+      "Mock all API calls via jest, use data-testid selectors, and strictly follow error message and state requirements."
+    ],
+    "files_to_add": [],
+    "files_to_edit": [
+      "/home/coder/project/workspace/question_generation_service/solutions/0c06a440-b4a5-436c-becd-b34f60bfc48c/reactapp/src/components/WorkoutList.test.js",
+      "/home/coder/project/workspace/question_generation_service/solutions/0c06a440-b4a5-436c-becd-b34f60bfc48c/reactapp/src/components/AddWorkoutForm.test.js"
+    ],
+    "description": "Provides guaranteed test coverage of all required frontend behaviors\u2014rendering, validation, error handling, and API integration\u2014with simple, focused mocks."
+  },
+  {
+    "step": "Build and Test Frontend (React, Jest)",
+    "sub_steps": [
+      "Run npm install to install dependencies.",
+      "Run npm run build to compile and check for errors.",
+      "Run npx eslint src/ --fix to lint code and auto-fix.",
+      "Run npm run test:ci to execute frontend tests non-blocking.",
+      "Validate that all test cases pass and build succeeds."
+    ],
+    "files_to_add": [],
+    "files_to_edit": [],
+    "description": "Ensures the React implementation compiles, meets linting standards, and passes all Jest test cases for guaranteed frontend reliability."
+  }
+]

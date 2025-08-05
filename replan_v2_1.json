@@ -1,0 +1,32 @@
+[
+  {
+    "step": "(FIXED) Break up frontend test implementation into atomic steps to avoid recursion/time limit errors",
+    "sub_steps": [
+      "Divide the original step 'Implement Frontend Test Cases (Jest + React Testing Library)' into smaller, atomic steps, one per distinct test component.",
+      "Step 13a: Write the 'testWorkoutListComponent' test in WorkoutList.test.js (mock API, check loader, headers, rows, friendly date).",
+      "Step 13b: Write the 'testAddWorkoutFormRendering' test in AddWorkoutForm.test.js (check form fields, initial state).",
+      "Step 13c: Write the 'testAddWorkoutFormValidation' test in AddWorkoutForm.test.js (submit empty/invalid/future, check error messages).",
+      "Step 13d: Write the 'testAddWorkoutFormSubmission' test in AddWorkoutForm.test.js (mock API, submit valid, check success/reset).",
+      "Each of these new atomic steps should be implemented and executed separately in sequence, to avoid recursion/timeout."
+    ],
+    "files_to_add": [],
+    "files_to_edit": [
+      "/home/coder/project/workspace/question_generation_service/solutions/0c06a440-b4a5-436c-becd-b34f60bfc48c/reactapp/src/components/WorkoutList.test.js",
+      "/home/coder/project/workspace/question_generation_service/solutions/0c06a440-b4a5-436c-becd-b34f60bfc48c/reactapp/src/components/AddWorkoutForm.test.js"
+    ],
+    "description": "Splits the large frontend test implementation step into separate atomic steps, each focused on a single test scenario. This avoids recursion limits and excessive agent execution time."
+  },
+  {
+    "step": "Build and Test Frontend (React, Jest)",
+    "sub_steps": [
+      "Run npm install to install dependencies.",
+      "Run npm run build to compile and check for errors.",
+      "Run npx eslint src/ --fix to lint code and auto-fix.",
+      "Run npm run test:ci to execute frontend tests non-blocking.",
+      "Validate that all test cases pass and build succeeds."
+    ],
+    "files_to_add": [],
+    "files_to_edit": [],
+    "description": "Ensures the React implementation compiles, meets linting standards, and passes all Jest test cases for guaranteed frontend reliability."
+  }
+]
