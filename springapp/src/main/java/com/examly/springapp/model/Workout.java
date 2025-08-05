@@ -2,11 +2,11 @@ package com.examly.springapp.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
-
 import java.time.LocalDate;
 
 @Entity
 public class Workout {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -17,16 +17,15 @@ public class Workout {
     @Min(value = 1, message = "Duration must be greater than 0")
     private int duration;
 
-    @Min(value = 0, message = "Calories burned must be >= 0")
+    @Min(value = 0, message = "Calories burned must be greater than or equal to 0")
     private int caloriesBurned;
 
-    @PastOrPresent(message = "Date must not be in the future")
+    @NotNull(message = "Date must not be null")
     private LocalDate date;
 
     private String notes;
 
-    // Getters and Setters
-
+    // Getters and setters
     public Long getId() { return id; }
     public void setId(Long id) { this.id = id; }
 
