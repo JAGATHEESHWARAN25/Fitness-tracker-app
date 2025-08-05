@@ -21,6 +21,7 @@ public class Workout {
     private int caloriesBurned;
 
     @NotNull(message = "Date must not be null")
+    @PastOrPresent(message = "Date must not be a future date")
     private LocalDate date;
 
     private String notes;

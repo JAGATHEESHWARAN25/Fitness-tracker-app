@@ -6,7 +6,6 @@ import com.examly.springapp.repository.WorkoutRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.List;
 
 @Service
@@ -30,33 +29,5 @@ public class WorkoutService {
 
     public Workout createWorkout(Workout workout) {
         return repository.save(workout);
-    }
-
-    public Workout updateWorkout(Long id, Workout updatedWorkout) {
-        Workout existing = getWorkoutById(id);
-        existing.setType(updatedWorkout.getType());
-        existing.setDuration(updatedWorkout.getDuration());
-        existing.setCaloriesBurned(updatedWorkout.getCaloriesBurned());
-        existing.setDate(updatedWorkout.getDate());
-        existing.setNotes(updatedWorkout.getNotes());
-        return repository.save(existing);
-    }
-
-    public void deleteWorkout(Long id) {
-        Workout existing = getWorkoutById(id);
-        repository.delete(existing);
-    }
-
-    public List<Workout> getWorkoutsByType(String type) {
-        return repository.findByType(type);
-    }
-
-    public List<Workout> getWorkoutsWithMinCalories(int minCalories) {
-        return repository.findByCaloriesBurnedGreaterThanEqual(minCalories);
-    }
-
-    public List<Workout> getRecentWorkouts(int days) {
-        LocalDate dateFrom = LocalDate.now().minusDays(days);
-        return repository.findRecentWorkouts(dateFrom);
     }
 }
